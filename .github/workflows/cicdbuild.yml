@@ -53,7 +53,6 @@ jobs:
           name: sweeper-osx
           path: |
             dist/*
-            CrownSweeper.spec
           
           
   windows-build:
@@ -76,8 +75,7 @@ jobs:
           python.exe -m virtualenv venv
           .\venv\Scripts\activate.bat
           pip3 install -r requirements.txt
-          pyinstaller --debug=all --onefile -i sweeper.ico -n CrownSweeper sweeper.py 
-          dir dist
+          pyinstaller --onefile -i sweeper.ico -n CrownSweeper sweeper.py 
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
@@ -85,4 +83,3 @@ jobs:
           name: sweeper-windows
           path: |
             dist\*
-            CrownSweeper.spec

@@ -163,14 +163,6 @@ class Dialog(QDialog):
         self.address_list_address_label.setObjectName(u"address_list_address_label")
         self.address_list_address_label.setGeometry(QRect(10, 0, 71, 16))
         self.address_list_address_label.setFont(QFont('Cantarell', 10))
-        self.address_list_amount_label = QLabel(self.address_list_frame)
-        self.address_list_amount_label.setObjectName(u"address_list_amount_label")
-        self.address_list_amount_label.setGeometry(QRect(280, 0, 51, 16))
-        self.address_list_amount_label.setFont(QFont('Cantarell', 10))
-        self.address_list_label_label = QLabel(self.address_list_frame)
-        self.address_list_label_label.setObjectName(u"address_list_label_label")
-        self.address_list_label_label.setGeometry(QRect(360, 0, 51, 16))
-        self.address_list_label_label.setFont(QFont('Cantarell', 10))
         # About Button
         self.about_button = QPushButton(self)
         self.about_button.setObjectName(u"about_button")
@@ -196,8 +188,6 @@ class Dialog(QDialog):
         self.crw_label2.setText(QCoreApplication.translate("self", u"CRW", None))
         self.order_label.setText(QCoreApplication.translate("self", u"Order By", None))
         self.address_list_address_label.setText(QCoreApplication.translate("self", u"Address", None))
-        self.address_list_amount_label.setText(QCoreApplication.translate("self", u"Amount", None))
-        self.address_list_label_label.setText(QCoreApplication.translate("self", u"Label", None))
         self.about_button.setText(QCoreApplication.translate("self", u"About", None))
     
     def hideNewCheckbox(self):

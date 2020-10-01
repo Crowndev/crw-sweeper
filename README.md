@@ -12,6 +12,15 @@ to consolidate them. The sweeper can be run when using either daemon or GUI wall
 and provides hybrid functionality between coin control and the "spendfrom" command
 line tool.
 
+## Installation
+- Download the artifact for your platform.
+- unzip it using your preferred unzip utility. 
+**Note** that Github artifacts download as dynamically created zip files. 
+Unfortunately this **strips the execute permission bit from linux/OSX executables**. After unzipping the artifact you must manually restore the execute permission by
+
+    ```chmod +x CrownSweeper```
+- move or copy the executable to your preferred location
+ 
 ## Operation
 Upon execution a window is displayed showing all the wallet addresses containing
 unlocked Unspent Transaction Outputs ( 

@@ -62,7 +62,7 @@ def selected_items(widget, options):
     for item in widget.selectedItems():
         item = item.text().split(" ")
         items.append(item[0])
-        selected_amount += float(item[1])
+        selected_amount += float(item[2])
     selected_amount = round(float(selected_amount), 4)
     widget.parent().parent().selected_label.setText(str(selected_amount))
     widget.parent().parent().amount_edit.setText(str(selected_amount))

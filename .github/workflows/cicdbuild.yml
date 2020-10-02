@@ -5,7 +5,7 @@ on: [push]
 jobs:
   linux-build:
     name: Build Linux Asset
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-16.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -30,7 +30,7 @@ jobs:
           name: sweeper-linux
           path: |
             README.md
-            CrownSweeper.spec
+            LICENSE
             dist/CrownSweeper
 
 
@@ -55,7 +55,7 @@ jobs:
           name: sweeper-osx
           path: |
             README.md
-            CrownSweeper.spec
+            LICENSE
             dist/CrownSweeper
           
           
@@ -79,7 +79,7 @@ jobs:
           python.exe -m virtualenv venv
           .\venv\Scripts\activate.bat
           pip3 install -r requirements.txt
-          pyinstaller --onefile --windowed --add-data 'sweeper.ico;.' -i sweeper.ico -n CrownSweeper sweeper.py 
+          pyinstaller --windowed CrownSweeper.spec
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
@@ -87,5 +87,5 @@ jobs:
           name: sweeper-windows
           path: |
             README.md
-            CrownSweeper.spec
+            LICENSE
             dist\CrownSweeper.exe

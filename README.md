@@ -30,7 +30,7 @@ containing unlocked Unspent Transaction Outputs (
 ), the total amount of CRW in each address, the label/account attached
 to each address and the number of UTXOs in each. 
 
-![Sweeper](screenshot.png)
+![Sweeper](img/screenshot.png)
 
 One or more addresses may be selected by clicking on them. The sum
 available in those addresses is displayed and entered by default in the

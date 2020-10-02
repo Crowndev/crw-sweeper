@@ -46,7 +46,7 @@ class Dialog(QDialog):
             self.setObjectName(u"Sweeper")
         self.resize(800, 370)
         self.setFixedSize(800, 370)
-        self.setWindowIcon(QIcon('sweeper.ico'))
+        self.setWindowIcon(QIcon('img/sweeper.ico'))
         # To Address Frame
         self.to_address_frame = QFrame(self)
         self.to_address_frame.setObjectName(u"to_address_frame")
@@ -353,7 +353,7 @@ class About(QDialog):
     def setupUi(self):
         if not self.objectName():
             self.setObjectName(u"About")
-        self.setWindowIcon(QIcon('sweeper.ico'))
+        self.setWindowIcon(QIcon('img/sweeper.ico'))
         self.resize(358, 300)
         self.label = QLabel(self)
         self.label.setObjectName(u"label")

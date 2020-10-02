@@ -12,6 +12,17 @@ wallet it is not trivial to consolidate them. The sweeper can be run
 when using either daemon or GUI wallet and provides hybrid functionality
 between coin control and the "spendfrom" command line tool.
 
+## Requirements
+The packaged executable has some minimum requirements. If your machine does
+not meet them you could instead try running the tool from source with your
+already installed Python interpreter (so long as it is at least version 3.6).
+
+Platform | Minimum version
+---|---
+linux | Ubuntu 16.04 or equivalent
+Windows | Windows 10
+MacOS | 10.15
+
 ## Installation
 - Download the artifact for your platform.
 - unzip it using your preferred unzip utility. 
@@ -22,7 +33,31 @@ restore the execute permission by:
 
     ```chmod +x dist/CrownSweeper```
 - move or copy the executable to your preferred location.
- 
+
+## Post Installation
+Crown Sweeper makes an RPC connection to a running Crown wallet. If you 
+normally only run the GUI wallet (crown-qt) you will need to update your
+config file (crown.conf) to include RPC server configuration directives
+so that the sweeper can connect. The config file is located in the data 
+directory, the default locations are:
+
+Platform | Default location
+---|---
+linux | $HOME/.crown
+Windows | c:\users\<your user name>\AppData\Roaming\Crown
+MacOS | no idea
+
+If you can connect to the wallet using crown-cli then it is already 
+configured. Otherwise edit or create the file and add the following
+directives:
+```
+rpcuser=<anything you like>
+rpcpassword=<something hard to guess>
+rpcallowip=127.0.0.1
+server=1
+```
+After changing the crown.conf you must restart the wallet.
+
 ## Operation
 Upon execution a window is displayed showing all the wallet addresses
 containing unlocked Unspent Transaction Outputs ( 
@@ -65,9 +100,33 @@ value up to the available funds. You may need to perform more than one
 sweep if the amount to send cannot be accommodated in a single
 transaction.
 
+## Gotchas
+Pyinstaller creates an executable which contains **most** of what is 
+required to run the program. On linux especially there are still some
+dependencies on the underlying operating system (eg: C runtime, fonts,
+D-BUS). You may encounter "noise" or actual error messages when running
+Crown Sweeper. Typical noise messages are from fontconfig and can be
+ignored. You might end up with ugly fonts but the tool should work.
+
+If you get a message like
+```
+** (CrownSweeper:5928): WARNING **: 16:41:54.023: Couldn't register with ccessibility bus: Did not receive a reply. Possible causes include: the remote application did not send a reply, the message bus security policy blocked the reply, the reply timeout expired, or the network connection was broken.
+```
+you can safely ignore it. Alternatively you can completely mute it by
+setting an environment variable 
+
+   ```export NO_AT_BRIDGE=1```
+
+If you get a message like
+```
+[31589] Error loading Python lib '/tmp/_MEIt7CYkQ/libpython3.7m.so.1.0': dlopen: /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.25' not found (required by /tmp/_MEIt7CYkQ/libpython3.7m.so.1.0)
+```
+your C runtime is too old. Try running from source instead or consider
+upgrading your distro. 
+
 ## Acknowledgements
-Crown Sweeper is a python wrapper around the command line "spendfrom"
-tool found in the Bitcoin/contrib directory. 
+Crown Sweeper is a Python wrapper around the command line "spendfrom"
+tool found in the Crown/contrib (derived from Bitcoin/contrib) directory. 
 
 The Crown Sweeper icon is based on a broom icon in the "Stay at home"
 pack by Freepik at 

@@ -18,10 +18,10 @@ between coin control and the "spendfrom" command line tool.
 **Note** that Github artifacts download as dynamically created zip
 files. Unfortunately this **strips the execute permission bit from 
 linux/OSX executables**. After unzipping the artifact you must manually
-restore the execute permission by
+restore the execute permission by:
 
     ```chmod +x dist/CrownSweeper```
-- move or copy the executable to your preferred location
+- move or copy the executable to your preferred location.
  
 ## Operation
 Upon execution a window is displayed showing all the wallet addresses
@@ -48,7 +48,7 @@ limit is less than the required amount.
 
 If "Upto" is not checked then the fee is additional to the amount to
 send, and the value in the selected addresses must be greater than the
-sum of amount and fee. Any change will be sent to the first used from
+sum of amount and fee. Any change will be sent to the last listed from
 address.  
 
 The fee defaults to 0.025 CRW. You may choose a smaller or larger (upto

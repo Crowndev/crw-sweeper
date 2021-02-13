@@ -67,7 +67,7 @@ class Ui(QMainWindow):
         super(Ui, self).__init__()
         uic.loadUi('UI/SweeperMainPage.ui', self)
 
-        self.setWindowIcon(QIcon('sweeper.ico'))
+        self.setWindowIcon(QIcon('img/sweeper.ico'))
         ordering = ['Largest', 'Smallest', 'Label']
         self.order_combobox.addItems(ordering)
         self.options = Options()

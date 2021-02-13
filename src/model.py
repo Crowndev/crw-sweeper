@@ -1,13 +1,14 @@
-from spendfrom import determine_db_dir
+from spendfrom import SpendFrom
+
 
 class Options(object):
     def __init__(self):
         self.fromaddresses = list()
         self.toaddress = None
         self.new = False
-        self.datadir = determine_db_dir()
+        self.datadir = SpendFrom.determine_db_dir()
         self.conffile = "crown.conf"
-        self.fee = "0.025"
+        self.fee = "0.001"
         self.amount = None
         self.upto = None
         self.select = None

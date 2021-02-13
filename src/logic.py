@@ -1,35 +1,47 @@
-from spendfrom import *
-from PyQt5.QtWidgets import QCheckBox
+from decimal import Decimal
+from spendfrom import SpendFrom
+from PyQt5.QtWidgets import QCheckBox, QTableWidgetItem
 
 
 def try_conn(dialog, options):
+    spendfrom = SpendFrom(dialog)
+
     try:
-        config = read_bitcoin_config(options.datadir, options.conffile)
+        config = spendfrom.read_bitcoin_config(options.datadir, options.conffile)
         if options.testnet: config['testnet'] = True
-        crownd = connect_JSON(config)
+        crownd = spendfrom.connect_JSON(config)
+        
         crownd.getinfo()
     except Exception:
         return False
     return True
 
 def connect(dialog, options):
+    spendfrom = SpendFrom(dialog)
+
     try:
-        check_json_precision()
-        config = read_bitcoin_config(options.datadir, options.conffile)
+        spendfrom.check_json_precision()
+        config = spendfrom.read_bitcoin_config(options.datadir, options.conffile)
         if options.testnet: config['testnet'] = True
-        crownd = connect_JSON(config)
+        crownd = spendfrom.connect_JSON(config)
     except Exception:
         return False
     else:
-        address_summary = list_available(crownd)
+        address_summary = spendfrom.list_available(crownd)
     return address_summary
 
 
 def sweep(dialog, options):
-    check_json_precision()
-    config = read_bitcoin_config(options.datadir,options.conffile)
+    spendfrom = SpendFrom(dialog)
+
+    spendfrom.check_json_precision()
+    config = spendfrom.read_bitcoin_config(options.datadir,options.conffile)
     if options.testnet: config['testnet'] = True
-    crownd = connect_JSON(config)
+    try:
+        crownd = spendfrom.connect_JSON(config)
+    except Exception:
+        return False
+
     if not dialog.new_address_checkbox.isVisible():
         options.new = False
     if options.new:
@@ -41,13 +53,13 @@ def sweep(dialog, options):
         return dialog.notify("To address is invalid")
     else:    
         fee = Decimal(options.fee)
-        amount = Decimal(options.amount) - fee
-        while unlock_wallet(crownd, dialog.options.passphrase) == False:
+        amount = Decimal(options.amount)# - fee
+        while spendfrom.unlock_wallet(crownd, dialog.options.passphrase) == False:
             if dialog.options.pswdcanceled:
                 return
             dialog.pswdask()
-        txdata = create_tx(crownd, options.fromaddresses, options.toaddress, amount, fee, options.select, options.upto)
-        sanity_test_fee(crownd, txdata, amount*Decimal("0.01"), fee)
+        txdata = spendfrom.create_tx(crownd, options.fromaddresses, options.toaddress, amount, fee, options.select, options.upto)
+        spendfrom.sanity_test_fee(crownd, txdata, amount*Decimal("0.01"), fee)
         txlen = len(txdata)/2
         if txlen < 250000:
             txid = crownd.sendrawtransaction(txdata)
@@ -60,9 +72,10 @@ def selected_items(widget, options):
     items = list()
     selected_amount = 0
     for item in widget.selectedItems():
-        item = item.text().split(" ")
-        items.append(item[0])
-        selected_amount += float(item[2])
+        if item.toolTip() == 'Address':
+            items.append(item.text())
+        if item.toolTip() == 'Balance':
+            selected_amount += float(item.text())
     selected_amount = selected_amount
     widget.parent().parent().selected_label.setText(str(selected_amount))
     widget.parent().parent().amount_edit.setText(str(selected_amount))
@@ -93,11 +106,11 @@ def refresh(widget, options):
     addresses = list()
     spendable_amount = 0
     address_summary = connect(widget, options)
-    if address_summary.items():
+    if address_summary and address_summary.items():
         for address,info in address_summary.items():
             n_transactions = len(info['outputs'])
             elem = {
-                'data': "%s Amount: %s Label: %s UTXO:(%s)"%(address, info['total'], info['account'], str(n_transactions)),
+                'data': [address, info['total'], info['account'], str(n_transactions)],
                 'label': info['account'],
                 'amount': info['total'],
             }
@@ -109,8 +122,24 @@ def refresh(widget, options):
     widget.available_label.setText(str(spendable_amount))
     widget.address_list_widget.clear()
     widget.new_address_checkbox.setVisible(True)
+    table = widget.address_list_widget
+    table.setColumnCount(4)
+    table.setRowCount(len(addresses))
+    table.setHorizontalHeaderLabels(["Address", "Balance", "Label", "UTXO"])
+    x = 0
+    y = 0
     for address in addresses:
-        widget.address_list_widget.addItem(address['data'])
+        for item in address['data']:
+            table_item = QTableWidgetItem(str(item))
+            if type(item) is Decimal:
+                table_item.setToolTip('Balance')
+            if y == 0:
+                table_item.setToolTip('Address')
+            table.setItem(x, y, table_item)
+            y += 1
+        y = 0
+        x += 1
+    table.resizeColumnsToContents()
 
 def order(addresses, by):
     if by == 'Smallest':

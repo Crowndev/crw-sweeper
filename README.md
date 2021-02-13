@@ -45,7 +45,7 @@ Platform | Default location
 ---|---
 linux | $HOME/.crown
 Windows | c:\users\<your user name>\AppData\Roaming\Crown
-MacOS | no idea
+MacOS | $HOME/Library/Application Support/Crown/
 
 If you can connect to the wallet using crown-cli then it is already 
 configured. Otherwise edit or create the file and add the following
@@ -156,5 +156,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-

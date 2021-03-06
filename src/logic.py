@@ -114,6 +114,7 @@ def refresh(widget, options):
                 'data': [address, info['total'], info['account'], str(n_transactions)],
                 'label': info['account'],
                 'amount': info['total'],
+                'utxo': n_transactions,
             }
             addresses.append(elem)
             spendable_amount += info['total']
@@ -149,3 +150,5 @@ def order(addresses, by):
         addresses.sort(key=lambda k: k['amount'], reverse=True)
     elif by == 'Label':
         addresses.sort(key=lambda k: k['label'])
+    elif by == 'UTXOs':
+        addresses.sort(key=lambda k: k['utxo'], reverse=True)

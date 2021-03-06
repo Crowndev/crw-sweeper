@@ -73,7 +73,7 @@ class SpendFrom(object):
         t = int(info['unlocked_until'])
         if t <= time.time():
             try:
-                crownd.walletpassphrase(passphrase, 5)
+                crownd.walletpassphrase(passphrase, 30)
             except:
                 #self.dialog.notify("Please enter your passphrase\n")
                 pass
@@ -147,7 +147,7 @@ class SpendFrom(object):
 
         if total_available == 0:
             self.dialog.notify("Selected addresses are empty\n")
-            return
+            return ""
         elif total_available < needed:
             if upto:
                 needed = total_available
@@ -155,7 +155,7 @@ class SpendFrom(object):
                 self.dialog.notify("Warning, only %f CRW available, sending up to %f CRW"%(total_available, amount))
             else:
                 self.dialog.notify("Error, only %f CRW available, need %f CRW\n"%(total_available, needed))
-                return
+                return ""
             
         #
         # Note:
@@ -170,7 +170,7 @@ class SpendFrom(object):
             outputs[toaddress] = float(amount)
             if not upto:
                 self.dialog.notify("Error, only %f CRW available, need %f\n"%(amount + fee, needed))
-                return
+                return ""
         elif change_amount > BASE_FEE:  # don't bother with zero or tiny change
             change_address = fromaddresses[-1]
             if change_address in outputs:
@@ -182,7 +182,7 @@ class SpendFrom(object):
         signed_rawtx = crownd.signrawtransaction(rawtx)
         if not signed_rawtx["complete"]:
             self.dialog.notify("signrawtransaction failed\n")
-            return
+            return ""
         txdata = signed_rawtx["hex"]
 
         return txdata

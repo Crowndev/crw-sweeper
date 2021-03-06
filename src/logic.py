@@ -59,14 +59,15 @@ def sweep(dialog, options):
                 return
             dialog.pswdask()
         txdata = spendfrom.create_tx(crownd, options.fromaddresses, options.toaddress, amount, fee, options.select, options.upto)
-        spendfrom.sanity_test_fee(crownd, txdata, amount*Decimal("0.01"), fee)
-        txlen = len(txdata)/2
-        if txlen < 250000:
-            txid = crownd.sendrawtransaction(txdata)
-            refresh(dialog, options)
-            return dialog.showtx(txid)
-        else:
-            return dialog.notify("Transaction size is too large")
+        if txdata != "":
+            spendfrom.sanity_test_fee(crownd, txdata, amount*Decimal("0.01"), fee)
+            txlen = len(txdata)/2
+            if txlen < 250000:
+                txid = crownd.sendrawtransaction(txdata)
+                refresh(dialog, options)
+                return dialog.showtx(txid)
+            else:
+                return dialog.notify("Transaction size is too large")
 
 def selected_items(widget, options):
     items = list()

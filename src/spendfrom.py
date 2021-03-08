@@ -202,24 +202,18 @@ class SpendFrom(object):
         return result
 
     def sanity_test_fee(self, crownd, txdata_hex, max_fee, fee):
-        class FeeError(RuntimeError):
-            pass
-        try:
-            txinfo = crownd.decoderawtransaction(txdata_hex)
-            total_in = self.compute_amount_in(crownd, txinfo)
-            total_out = self.compute_amount_out(txinfo)
-            if total_in-total_out > max_fee:
-                raise FeeError("Rejecting transaction, unreasonable fee of "+str(total_in-total_out))
-
-            tx_size = len(txdata_hex)/2
-            kb = tx_size/1000  # integer division rounds down
-            if kb > 1 and fee < BASE_FEE:
-                raise FeeError("Rejecting no-fee transaction, larger than 1000 bytes")
-            if total_in < 0.01 and fee < BASE_FEE:
-                raise FeeError("Rejecting no-fee, tiny-amount transaction")
+        txinfo = crownd.decoderawtransaction(txdata_hex)
+        total_in = self.compute_amount_in(crownd, txinfo)
+        total_out = self.compute_amount_out(txinfo)
+        if total_in-total_out > max_fee:
+            return "Rejecting transaction, unreasonable fee of "+str(total_in-total_out)
+        tx_size = len(txdata_hex)/2
+        kb = tx_size/1000  # integer division rounds down
+        if kb > 1 and fee < BASE_FEE:
+            return "Rejecting no-fee transaction, larger than 1000 bytes"
+        if total_in < 0.01 and fee < BASE_FEE:
+            return "Rejecting no-fee, tiny-amount transaction"
             # Exercise for the reader: compute transaction priority, and
             # warn if this is a very-low-priority transaction
 
-        except FeeError as err:
-            self.dialog.notify((str(err)+"\n"))
-            return
+        return "OK"

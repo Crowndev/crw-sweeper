@@ -11,7 +11,10 @@ base_dir = os.path.dirname(os.path.realpath('__file__'))
 
 add_files = [
  ('img/screenshot.png','/img'),
- ('img/sweeper.ico','/img'),
+ ('img/sweeper.ico','/img')
+]
+
+binary_files = [
  ('UI/About.ui','/UI'),
  ('UI/Notification.ui','/UI'),
  ('UI/PasswordPop.ui','/UI'),
@@ -21,7 +24,7 @@ add_files = [
 
 a = Analysis(['src/sweeper.py'],
              pathex=[base_dir],
-             binaries=[],
+             binaries=binary_files,
              datas=add_files,
              hiddenimports=[],
              hookspath=[],

@@ -86,7 +86,7 @@ send, and the value in the selected addresses must be greater than the
 sum of amount and fee. Any change will be sent to the last listed from
 address.  
 
-The fee defaults to 0.025 CRW. You may choose a smaller or larger (upto
+The fee defaults to 0.001 CRW. You may choose a smaller or larger (upto
 1% of the transaction value) amount.
 
 After selecting the inputs and setting the receiving address, amount and
@@ -110,7 +110,7 @@ ignored. You might end up with ugly fonts but the tool should work.
 
 If you get a message like
 ```
-** (CrownSweeper:5928): WARNING **: 16:41:54.023: Couldn't register with ccessibility bus: Did not receive a reply. Possible causes include: the remote application did not send a reply, the message bus security policy blocked the reply, the reply timeout expired, or the network connection was broken.
+** (CrownSweeper:5928): WARNING **: 16:41:54.023: Couldn't register with accessibility bus: Did not receive a reply. Possible causes include: the remote application did not send a reply, the message bus security policy blocked the reply, the reply timeout expired, or the network connection was broken.
 ```
 you can safely ignore it. Alternatively you can completely mute it by
 setting an environment variable 
@@ -119,7 +119,7 @@ setting an environment variable
 
 If you get a message like
 ```
-[31589] Error loading Python lib '/tmp/_MEIt7CYkQ/libpython3.7m.so.1.0': dlopen: /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.25' not found (required by /tmp/_MEIt7CYkQ/libpython3.7m.so.1.0)
+[31589] Error loading Python lib '/tmp/_MEIt7CYkQ/libpython3.7m.so.1.0': dlopen: /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.28' not found (required by /tmp/_MEIt7CYkQ/libpython3.7m.so.1.0)
 ```
 your C runtime is too old. Try running from source instead or consider
 upgrading your distro. 
@@ -137,7 +137,7 @@ Crown Sweeper is released under the MIT License.
 
 ## MIT License
 
-Copyright (c) 2020 The Crown Developers
+Copyright (c) 2020-2021 The Crown Developers
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

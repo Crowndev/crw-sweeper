@@ -11,7 +11,12 @@ base_dir = os.path.dirname(os.path.realpath('__file__'))
 
 add_files = [
  ('img/screenshot.png','/img'),
- ('img/sweeper.ico','/img')
+ ('img/sweeper.ico','/img'),
+ ('UI/About.ui','/UI'),
+ ('UI/Notification.ui','/UI'),
+ ('UI/PasswordPop.ui','/UI'),
+ ('UI/SweeperMainPage.ui','/UI'),
+ ('UI/TxPop.ui','/UI'),
 ]
 
 a = Analysis(['src/sweeper.py'],
